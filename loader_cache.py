@@ -26,7 +26,7 @@ def download_text(url):
 	log.debug('Downloading %s', url)
 	time.sleep(1)
 	req = requests.get(url)
-	return req.text
+	return req.text.encode('utf-8')
 
 def read_file(filename):
 	with open(get_path(filename), 'r') as text_file:
