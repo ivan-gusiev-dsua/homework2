@@ -6,6 +6,7 @@ import logging
 import requests
 
 import loader_cache
+import loader_data
 import loader_parse
 
 # set up logging
@@ -38,9 +39,10 @@ def process_announcement(ann):
 	ann_date = ann.find('div', { 'class' : 'announce_date' })
 	ann_link = ann.find('a')
 	date = loader_parse.parse_date(ann_date.text.strip())
-	log.debug('[%s] -> %s', ann_date.text.strip(), date)
 	link = ann_link['href']
 	text = ann_link.text.strip()
+#	log.debug('%s %s %s', date, link, text)
+	loader_data.news_append(date, link, text)
 
 def process_page(url):
 	soup = get_soup(url)
