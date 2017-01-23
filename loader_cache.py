@@ -9,7 +9,7 @@ log = logging.getLogger('loader')
 root_dir = './cache'
 
 def get_filename(url):
-	return base64.b64encode(url)
+	return base64.b64encode(url, ['_', '-'])
 
 def get_path(filename):
 	return root_dir + '/' + filename
@@ -25,15 +25,16 @@ def exists_file(filename):
 def download_text(url):
 	log.debug('Downloading %s', url)
 	time.sleep(1)
-	req = loader_cache.get_text(url)
-        data = req.text
+	req = requests.get(url)
+	return req.text
 
 def read_file(filename):
 	with open(get_path(filename), 'r') as text_file:
 		return text_file.read()
 
 def save_file(filename, text):
-	 with open(get_path(filename), "w") as text_file:
+	log.info('Saving to %s', filename)
+	with open(get_path(filename), "w") as text_file:
 		text_file.write(text)
 
 def get_text(url):
@@ -45,4 +46,3 @@ def get_text(url):
 		text = download_text(url)
 		save_file(filename, text)
 		return text
-

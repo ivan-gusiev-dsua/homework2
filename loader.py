@@ -21,12 +21,10 @@ bank_root = 'https://bank.gov.ua/control/uk/publish/category?cat_id=70779'
 log.info('root URL: %s', bank_root)
 
 def get_soup(url):
-	req = loader_cache.get_text(url)
-	data = req.text
+	data = loader_cache.get_text(url)
 	soup = bs4.BeautifulSoup(data, 'html5lib')
 	return soup
 
 root_soup = get_soup(bank_root)
 announce_div = root_soup.findAll("div", { "class" : "announces_block" })
 log.info(len(announce_div))
-
