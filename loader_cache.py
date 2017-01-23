@@ -7,6 +7,9 @@ import time
 
 log = logging.getLogger('loader')
 root_dir = './cache'
+sleep_seconds = 3
+
+log.info('Each download will sleep for %s seconds', sleep_seconds)
 
 def get_filename(url):
 	return base64.b64encode(url, ['_', '-'])
@@ -24,7 +27,7 @@ def exists_file(filename):
 
 def download_text(url):
 	log.debug('Downloading %s', url)
-	time.sleep(1)
+	time.sleep(sleep_seconds)
 	req = requests.get(url)
 	return req.text.encode('utf-8')
 
