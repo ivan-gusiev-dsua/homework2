@@ -1,9 +1,12 @@
+# coding=utf-8
+
 import bs4
 import dateparser
 import logging
 import requests
 
 import loader_cache
+import loader_parse
 
 # set up logging
 FORMAT = '%(asctime)-15s %(levelname)s %(message)s'
@@ -23,7 +26,7 @@ log.info('Max pages set to %s', MAX_PAGES)
 
 bank_host = 'https://bank.gov.ua/'
 bank_root = bank_host + 'control/uk/publish/category?cat_id=70779'
-log.info('root URL: %s', bank_root)
+log.info('Root URL: %s', bank_root)
 
 def get_soup(url):
 	if url.startswith('control'): url = bank_host + url
@@ -34,8 +37,8 @@ def get_soup(url):
 def process_announcement(ann):
 	ann_date = ann.find('div', { 'class' : 'announce_date' })
 	ann_link = ann.find('a')
-	date = dateparser.parse(ann_date.text.strip())
-	log.debug('[%s] -> %s', ann_date.text.strip().encode('utf-8'), date)
+	date = loader_parse.parse_date(ann_date.text.strip())
+	log.debug('[%s] -> %s', ann_date.text.strip(), date)
 	link = ann_link['href']
 	text = ann_link.text.strip()
 

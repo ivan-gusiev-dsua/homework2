@@ -33,7 +33,7 @@ def download_text(url):
 
 def read_file(filename):
 	with open(get_path(filename), 'r') as text_file:
-		return text_file.read()
+		return text_file.read().decode('utf-8')
 
 def save_file(filename, text):
 	log.info('Saving to %s', filename)
