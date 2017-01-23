@@ -20,4 +20,4 @@ def data_append(text):
 		text_file.write(text.encode('utf-8'))
 
 def news_append(date, link, text):
-	data_append(str(date) + ',' + link + ',' + text)
+	data_append(str(date) + '|' + link + '|' + text + '\n')

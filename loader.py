@@ -29,8 +29,14 @@ bank_host = 'https://bank.gov.ua/'
 bank_root = bank_host + 'control/uk/publish/category?cat_id=70779'
 log.info('Root URL: %s', bank_root)
 
+def fixup(url):
+	if not (url.startswith('http') or url.startswith('www')):
+		return bank_host + url
+	else:
+		return url
+
 def get_soup(url):
-	if url.startswith('control'): url = bank_host + url
+	url = fixup(url)
 	data = loader_cache.get_text(url)
 	soup = bs4.BeautifulSoup(data, 'html5lib')
 	return soup
@@ -39,9 +45,8 @@ def process_announcement(ann):
 	ann_date = ann.find('div', { 'class' : 'announce_date' })
 	ann_link = ann.find('a')
 	date = loader_parse.parse_date(ann_date.text.strip())
-	link = ann_link['href']
+	link = fixup(ann_link['href'])
 	text = ann_link.text.strip()
-#	log.debug('%s %s %s', date, link, text)
 	loader_data.news_append(date, link, text)
 
 def process_page(url):
