@@ -1,4 +1,5 @@
 import base64
+import codecs
 import logging
 import os
 import requests
@@ -12,7 +13,7 @@ sleep_seconds = 3
 log.info('Each download will sleep for %s seconds', sleep_seconds)
 
 def get_filename(url):
-	return base64.b64encode(url, ['_', '-'])
+	return base64.b64encode(url, '_-')
 
 def get_path(filename):
 	return root_dir + '/' + filename
@@ -32,8 +33,8 @@ def download_text(url):
 	return req.text.encode('utf-8')
 
 def read_file(filename):
-	with open(get_path(filename), 'r') as text_file:
-		return text_file.read().decode('utf-8')
+	with codecs.open(get_path(filename), encoding='utf-8') as text_file:
+		return text_file.read()
 
 def save_file(filename, text):
 	log.info('Saving to %s', filename)

@@ -73,4 +73,6 @@ for link in announce_div.findAll('a'):
 	years.add(link['href'])
 log.debug('Found %s year links', len(years))
 
-process_year(list(years)[0])
+for year in list(years):
+	process_year(year)
+
